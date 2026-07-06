@@ -98,14 +98,14 @@
             </defs>
         </svg>
 
-        <!-- TOP FLOATING CONTROL BAR (Cleaned up Language Selector) -->
+        <!-- TOP FLOATING CONTROL BAR -->
         <div class="fixed top-4 right-4 z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md px-3 py-2 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 flex items-center gap-3">
             <button onclick="toggleDarkMode()" class="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition-colors">
                 <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
                 <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
             </button>
             <button onclick="openSettingsModal()" class="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -137,46 +137,56 @@
                     <p id="text-section1-help" class="text-xs text-stone-500 dark:text-stone-400 mt-3">(ပုံများနှင့် စာသားများကို တိုက်ရိုက်နှိပ်၍ ပြင်ဆင်နိုင်ပါသည်)</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="grid grid-cols-2 gap-3 md:gap-8 max-w-4xl mx-auto">
                     <!-- Father Card -->
-                    <div class="bg-white/95 dark:bg-stone-900/90 backdrop-blur-md p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-md flex flex-col items-center">
+                    <div class="bg-white/95 dark:bg-stone-900/90 backdrop-blur-md p-4 md:p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-md flex flex-col items-center">
                         <input type="file" id="father-upload" accept="image/*" class="hidden" onchange="previewProfileImage(event, 'father-img', 'father-placeholder')">
-                        <div onclick="document.getElementById('father-upload').click()" class="group relative w-36 h-36 bg-stone-200 dark:bg-stone-800 rounded-full mb-6 overflow-hidden flex items-center justify-center text-stone-500 dark:text-stone-400 cursor-pointer border border-stone-300 dark:border-stone-700">
-                            <span id="father-placeholder" class="text-sm font-medium">[ ဖေဖေ ]</span>
+                        <div onclick="document.getElementById('father-upload').click()" class="group relative w-24 h-24 md:w-36 md:h-36 bg-stone-200 dark:bg-stone-800 rounded-full mb-4 md:mb-6 overflow-hidden flex items-center justify-center text-stone-500 dark:text-stone-400 cursor-pointer border border-stone-300 dark:border-stone-700">
+                            <span id="father-placeholder" class="text-xs md:text-sm font-medium">[ ဖေဖေ ]</span>
                             <img id="father-img" class="hidden w-full h-full object-cover absolute top-0 left-0" alt="Father Profile">
-                            <div id="text-father-hover" class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">ပုံပြောင်းရန်</div>
+                            <div id="text-father-hover" class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] md:text-xs">ပုံပြောင်းရန်</div>
                         </div>
-                        <h3 id="text-father-title" class="text-xl font-bold mb-1 text-stone-950 dark:text-stone-50 min-h-[1.5em]" contenteditable="true" placeholder="အမည်">ဖေဖေ</h3>
-                        <p id="text-father-sub" class="text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 font-bold mb-4 min-h-[1.5em]" contenteditable="true" placeholder="ဂုဏ်ပုဒ်">လမ်းပြကြယ်၊ အားကိုးရာ</p>
-                        <p id="text-father-desc" class="text-stone-800 dark:text-stone-300 text-sm text-center max-w-xs leading-relaxed min-h-[3em]" contenteditable="true" placeholder="အကြောင်းအရာလေးများ...">"သားသမီးတွေအတွက် ဘဝကို မညည်းမညူ တည်ဆောက်ပေးခဲ့တဲ့ စံပြလူသား။"</p>
+                        <h3 id="text-father-title" class="text-base md:text-xl font-bold mb-1 text-stone-950 dark:text-stone-50 min-h-[1.5em]" contenteditable="true" placeholder="အမည်">ဖေဖေ</h3>
+                        <p id="text-father-sub" class="text-[10px] md:text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 font-bold mb-3 md:mb-4 min-h-[1.5em]" contenteditable="true" placeholder="ဂုဏ်ပုဒ်">လမ်းပြကြယ်၊ အားကိုးရာ</p>
+                        <p id="text-father-desc" class="text-stone-800 dark:text-stone-300 text-xs md:text-sm text-center max-w-xs leading-relaxed min-h-[3em]" contenteditable="true" placeholder="အကြောင်းအရာလေးများ...">"သားသမီးတွေအတွက် ဘဝကို မညည်းမညူ တည်ဆောက်ပေးခဲ့တဲ့ စံပြလူသား။"</p>
                     </div>
 
                     <!-- Mother Card -->
-                    <div class="bg-white/95 dark:bg-stone-900/90 backdrop-blur-md p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-md flex flex-col items-center">
+                    <div class="bg-white/95 dark:bg-stone-900/90 backdrop-blur-md p-4 md:p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-md flex flex-col items-center">
                         <input type="file" id="mother-upload" accept="image/*" class="hidden" onchange="previewProfileImage(event, 'mother-img', 'mother-placeholder')">
-                        <div onclick="document.getElementById('mother-upload').click()" class="group relative w-36 h-36 bg-stone-200 dark:bg-stone-800 rounded-full mb-6 overflow-hidden flex items-center justify-center text-stone-500 dark:text-stone-400 cursor-pointer border border-stone-300 dark:border-stone-700">
-                            <span id="mother-placeholder" class="text-sm font-medium">[ မေမေ ]</span>
+                        <div onclick="document.getElementById('mother-upload').click()" class="group relative w-24 h-24 md:w-36 md:h-36 bg-stone-200 dark:bg-stone-800 rounded-full mb-4 md:mb-6 overflow-hidden flex items-center justify-center text-stone-500 dark:text-stone-400 cursor-pointer border border-stone-300 dark:border-stone-700">
+                            <span id="mother-placeholder" class="text-xs md:text-sm font-medium">[ မေမေ ]</span>
                             <img id="mother-img" class="hidden w-full h-full object-cover absolute top-0 left-0" alt="Mother Profile">
-                            <div id="text-mother-hover" class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">ပုံပြောင်းရန်</div>
+                            <div id="text-mother-hover" class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] md:text-xs">ပုံပြောင်းရန်</div>
                         </div>
-                        <h3 id="text-mother-title" class="text-xl font-bold mb-1 text-stone-950 dark:text-stone-50 min-h-[1.5em]" contenteditable="true" placeholder="အမည်">မေမေ</h3>
-                        <p id="text-mother-sub" class="text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 font-bold mb-4 min-h-[1.5em]" contenteditable="true" placeholder="ဂုဏ်ပုဒ်">မေတ္တာရှင်၊ အနွေးထွေးဆုံးရင်ခွင်</p>
-                        <p id="text-mother-desc" class="text-stone-800 dark:text-stone-300 text-sm text-center max-w-xs leading-relaxed min-h-[3em]" contenteditable="true" placeholder="အကြောင်းအရာလေးများ...">"ကမ္ဘာပေါ်မှာ အလိုအပ်ဆုံးအချိန်တိုင်း အနားမှာ အမြဲရှိပေးခဲ့တဲ့ စစ်မှန်တဲ့မေတ္တာရှင်။"</p>
+                        <h3 id="text-mother-title" class="text-base md:text-xl font-bold mb-1 text-stone-950 dark:text-stone-50 min-h-[1.5em]" contenteditable="true" placeholder="အမည်">မေမေ</h3>
+                        <p id="text-mother-sub" class="text-[10px] md:text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 font-bold mb-3 md:mb-4 min-h-[1.5em]" contenteditable="true" placeholder="ဂုဏ်ပုဒ်">မေတ္တာရှင်၊ အနွေးထွေးဆုံးရင်ခွင်</p>
+                        <p id="text-mother-desc" class="text-stone-800 dark:text-stone-300 text-xs md:text-sm text-center max-w-xs leading-relaxed min-h-[3em]" contenteditable="true" placeholder="အကြောင်းအရာလေးများ...">"ကမ္ဘာပေါ်မှာ အလိုအပ်ဆုံးအချိန်တိုင်း အနားမှာ အမြဲရှိပေးခဲ့တဲ့ စစ်မှန်တဲ့မေတ္တာရှင်။"</p>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 2 -->
             <section class="mb-16">
-                <div class="flex flex-col sm:flex-row justify-between items-center border-b border-stone-300 dark:border-stone-700 pb-5 mb-8 gap-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-stone-300 dark:border-stone-700 pb-5 mb-6 gap-4">
                     <div>
                         <h2 id="text-section2-title" class="text-2xl font-bold text-stone-950 dark:text-stone-50">အမှတ်တရ မှတ်စုများ</h2>
                         <p id="text-section2-help" class="text-xs text-stone-500 dark:text-stone-400 mt-1">(ပုံတင်ပြီးပါက Layout ပုံစံ အမျိုးမျိုး စိတ်ကြိုက် ပြောင်းလဲနိုင်သည်)</p>
                     </div>
-                    <button id="btn-add-note" onclick="addNoteCard()" class="bg-stone-900 dark:bg-amber-700 hover:bg-stone-800 dark:hover:bg-amber-600 text-white font-medium px-5 py-2.5 rounded-xl text-sm shadow flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/xl" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                    <button id="btn-add-note" onclick="addNoteCard()" class="bg-stone-900 dark:bg-amber-700 hover:bg-stone-800 dark:hover:bg-amber-600 text-white font-medium px-5 py-2.5 rounded-xl text-sm shadow flex items-center gap-2 self-end sm:self-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                         <span id="text-btn-add">မှတ်စုအသစ်တိုးရန်</span>
                     </button>
+                </div>
+
+                <!-- SEARCH BY NOTE TITLE INPUT -->
+                <div class="mb-8 max-w-md">
+                    <div class="relative flex items-center">
+                        <span class="absolute left-4 text-stone-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </span>
+                        <input type="text" id="search-notes-input" oninput="filterNotesByTitle()" class="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-stone-300/80 dark:border-stone-700/80 bg-white/50 dark:bg-stone-900/50 text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600 transition-all shadow-sm" placeholder="ခေါင်းစဉ်ဖြင့် ရှာဖွေရန်...">
+                    </div>
                 </div>
 
                 <div id="notes-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -206,14 +216,11 @@
         </footer>
     </div>
 
-<!-- MAIN SETTINGS MODAL (With Sub-menus / Tabs) -->
+    <!-- MAIN SETTINGS MODAL -->
     <div id="settings-modal" class="fixed inset-0 bg-stone-950/50 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
         <div class="bg-white dark:bg-stone-900 rounded-3xl p-6 max-w-sm w-full mx-4 shadow-2xl border border-stone-200 dark:border-stone-800">
-            
-            <!-- Modal Header -->
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-2">
-                    <!-- Back Button (Will show inside sub-menus) -->
                     <button id="btn-settings-back" onclick="showSettingsMenu()" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                     </button>
@@ -224,24 +231,21 @@
                 </button>
             </div>
 
-            <!-- 1. MAIN MENU BUTTONS (Shown first) -->
             <div id="settings-main-menu" class="space-y-3">
                 <button onclick="openSettingsTab('language')" class="w-full flex justify-between items-center bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700/80 px-4 py-3 rounded-xl font-medium text-sm text-stone-800 dark:text-stone-200 transition-all border border-stone-200/40 dark:border-stone-700/40">
                     <span id="menu-lang-text">ဘာသာစကား (Language)</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/xl" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                 </button>
                 <button onclick="openSettingsTab('themes')" class="w-full flex justify-between items-center bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700/80 px-4 py-3 rounded-xl font-medium text-sm text-stone-800 dark:text-stone-200 transition-all border border-stone-200/40 dark:border-stone-700/40">
                     <span id="menu-theme-text">နောက်ခံအရောင် (Themes)</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/xl" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                 </button>
                 <button onclick="openSettingsTab('security')" class="w-full flex justify-between items-center bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700/80 px-4 py-3 rounded-xl font-medium text-sm text-stone-800 dark:text-stone-200 transition-all border border-stone-200/40 dark:border-stone-700/40">
                     <span id="menu-security-text">လုံခြုံရေးကုဒ် (Security PIN)</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/xl" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
                 </button>
             </div>
 
-            <!-- 2. SUB PANELS (Hidden initially) -->
-            <!-- Language Sub Panel -->
             <div id="panel-language" class="hidden animate-fadeIn">
                 <label id="text-lang-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-2.5">ဘာသာစကား (Language)</label>
                 <div class="grid grid-cols-2 gap-2 bg-stone-100 dark:bg-stone-800 p-1 rounded-xl">
@@ -250,18 +254,16 @@
                 </div>
             </div>
             
-            <!-- Themes Sub Panel -->
             <div id="panel-themes" class="hidden animate-fadeIn">
                 <label id="text-theme-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-3">နောက်ခံအရောင် ရွေးချယ်ရန် (Themes)</label>
                 <div class="grid grid-cols-4 gap-3">
-                    <button onclick="setAppTheme('cream')" class="h-10 rounded-xl bg-[#f7ede2] border flex items-center justify-center transition-all shadow-md" id="theme-btn-cream" title="Warm Amber"></button>
+                    <button onclick="setAppTheme('cream')" class="h-10 rounded-xl bg-[#f7ede2] border flex items-center justify-center transition-all scale-105" id="theme-btn-cream" title="Warm Amber"></button>
                     <button onclick="setAppTheme('rose')" class="h-10 rounded-xl bg-[#fce7f3] border border-stone-300 dark:border-stone-700 transition-all shadow-md" id="theme-btn-rose" title="Deep Rose"></button>
                     <button onclick="setAppTheme('sage')" class="h-10 rounded-xl bg-[#d1fae5] border border-stone-300 dark:border-stone-700 transition-all shadow-md" id="theme-btn-sage" title="Emerald Sage"></button>
                     <button onclick="setAppTheme('slate')" class="h-10 rounded-xl bg-[#e0f2fe] border border-stone-300 dark:border-stone-700 transition-all shadow-md" id="theme-btn-slate" title="Luxury Sapphire"></button>
                 </div>
             </div>
 
-            <!-- Security Sub Panel -->
             <div id="panel-security" class="hidden animate-fadeIn">
                 <label id="text-pin-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-3">လုံခြုံရေးကုဒ် ပြောင်းလဲရန်</label>
                 <div class="flex flex-col gap-3">
@@ -269,14 +271,13 @@
                     <button onclick="changeSystemPIN()" id="btn-change-pin" class="bg-stone-900 dark:bg-amber-700 text-white text-xs font-bold py-2.5 rounded-xl hover:bg-stone-800 dark:hover:bg-amber-600 transition-all shadow-sm">PIN နံပါတ်အသစ် ပြောင်းမည်</button>
                 </div>
             </div>
-
         </div>
     </div>
 
     <!-- TOAST MODAL -->
     <div id="success-toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-stone-900 text-white dark:bg-white dark:text-stone-900 px-6 py-3.5 rounded-2xl shadow-2xl z-[150] flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none">
-        <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+        <div id="toast-icon-zone" class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/xl" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
         </div>
         <span id="success-toast-text" class="text-xs font-bold tracking-wide">PIN နံပါတ် ပြောင်းလဲပြီးပါပြီ။</span>
     </div>
@@ -312,6 +313,7 @@
                     desc_my: "ဒီမှတ်စုထဲမှာ မိဘတွေနဲ့ ပတ်သက်တဲ့ အကြောင်းအရာတွေကို စိတ်ကြိုက် အသေးစိတ် ရေးသားနိုင်ပါတယ်။",
                     desc_en: "In this note, you can freely write details about your parents.",
                     layout: 'default',
+                    date: '',
                     images: []
                 }
             ]
@@ -334,7 +336,9 @@
                 lockTitle: "Enter Security PIN", lockSub: "Default PIN is 1234",
                 settingsTitle: "ဆက်တင်များ (Settings)", themeLabel: "နောက်ခံအရောင် ရွေးချယ်ရန် (Themes)", langLabel: "ဘာသာစကား (Language)",
                 pinLabel: "လုံခြုံရေးကုဒ် ပြောင်းလဲရန်", btnChangePin: "Update PIN", pinPlaceholder: "Enter PIN",
-                toastSuccess: "PIN နံပါတ် ပြောင်းလဲပြီးပါပြီ။", toastError: "ဂဏန်း အနည်းဆုံး ၄ လုံး ရိုက်ထည့်ပေးပါ။"
+                toastSuccess: "PIN နံပါတ် ပြောင်းလဲပြီးပါပြီ။", toastError: "ဂဏန်း အနည်းဆုံး ၄ လုံး ရိုက်ထည့်ပေးပါ။",
+                searchPlaceholder: "ခေါင်းစဉ်ဖြင့် ရှာဖွေရန်...",
+                btnSaveText: "Save သိမ်းမည်"
             },
             en: {
                 archiveTag: "Family Archive", mainTitle: "Memories of Us", mainSubtitle: `"The precious days spent under the loving shelter of our parents."`,
@@ -352,7 +356,9 @@
                 lockTitle: "Enter Security PIN", lockSub: "Default PIN is 1234",
                 settingsTitle: "Settings", themeLabel: "Select Background Theme", langLabel: "Language",
                 pinLabel: "Change Security PIN", btnChangePin: "Update PIN", pinPlaceholder: "Enter 4-6 digit PIN",
-                toastSuccess: "PIN successfully updated.", toastError: "Please input at least 4 digits."
+                toastSuccess: "PIN successfully updated.", toastError: "Please input at least 4 digits.",
+                searchPlaceholder: "Search by title...",
+                btnSaveText: "Save Note"
             }
         };
 
@@ -390,9 +396,16 @@
         function showCustomToast(message, isError = false) {
             const toast = document.getElementById('success-toast');
             const toastText = document.getElementById('success-toast-text');
+            const iconZone = document.getElementById('toast-icon-zone');
+            
             toastText.innerText = message || "";
-            if(isError) toast.classList.add('border', 'border-rose-500');
-            else toast.classList.remove('border', 'border-rose-500');
+            if(isError) {
+                toast.classList.add('border', 'border-rose-500');
+                iconZone.className = "w-5 h-5 rounded-full bg-rose-500 flex items-center justify-center text-white";
+            } else {
+                toast.classList.remove('border', 'border-rose-500');
+                iconZone.className = "w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white";
+            }
 
             toast.classList.remove('opacity-0', 'translate-y-[-20px]', 'pointer-events-none');
             toast.classList.add('opacity-100', 'translate-y-0');
@@ -425,6 +438,7 @@
         }
 
         function openSettingsModal() {
+            showSettingsMenu();
             const modal = document.getElementById('settings-modal');
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
@@ -485,7 +499,6 @@
             
             const isEn = lang === 'en';
             
-            // Language Buttons Styling inside Settings Modal
             document.getElementById('lang-en').className = isEn 
                 ? "text-xs py-2 rounded-lg font-bold bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-950 shadow-sm transition-all" 
                 : "text-xs py-2 rounded-lg font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-700/50 transition-all";
@@ -512,12 +525,16 @@
             document.getElementById('text-pin-label').innerText = data.pinLabel;
             document.getElementById('btn-change-pin').innerText = data.btnChangePin;
             document.getElementById('new-pin-input').placeholder = data.pinPlaceholder;
+            
+            if(document.getElementById('search-notes-input')) {
+                document.getElementById('search-notes-input').placeholder = data.searchPlaceholder;
+            }
 
             const st = appData.staticTexts || {};
             document.getElementById('text-main-title').innerText = st['text-main-title'] !== undefined ? st['text-main-title'] : data.mainTitle;
             document.getElementById('text-main-subtitle').innerText = st['text-main-subtitle'] !== undefined ? st['text-main-subtitle'] : data.mainSubtitle;
             document.getElementById('text-father-title').innerText = st['text-father-title'] !== undefined ? st['text-father-title'] : data.fatherTitle;
-            document.getElementById('text-father-sub').innerText = st['text-father-sub'] !== undefined ? st['text-father-sub'] : data.fatherSub;
+            document.getElementById('text-father-sub'] .innerText = st['text-father-sub'] !== undefined ? st['text-father-sub'] : data.fatherSub;
             document.getElementById('text-father-desc').innerText = st['text-father-desc'] !== undefined ? st['text-father-desc'] : data.fatherDesc;
             document.getElementById('text-mother-title').innerText = st['text-mother-title'] !== undefined ? st['text-mother-title'] : data.motherTitle;
             document.getElementById('text-mother-sub').innerText = st['text-mother-sub'] !== undefined ? st['text-mother-sub'] : data.motherSub;
@@ -560,6 +577,24 @@
             const container = document.getElementById('notes-container');
             container.innerHTML = '';
             appData.notes.forEach(note => createNoteCardDOM(note, container));
+            filterNotesByTitle(); 
+        }
+
+        function filterNotesByTitle() {
+            const query = document.getElementById('search-notes-input').value.toLowerCase().trim();
+            appData.notes.forEach(note => {
+                const card = document.getElementById(`note-card-${note.id}`);
+                if (card) {
+                    const titleMy = (note.title_my || '').toLowerCase();
+                    const titleEn = (note.title_en || '').toLowerCase();
+
+                    if (titleMy.includes(query) || titleEn.includes(query)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                }
+            });
         }
 
         function addNoteCard() {
@@ -571,6 +606,7 @@
                 desc_my: "",
                 desc_en: "",
                 layout: 'default',
+                date: '',
                 images: []
             });
             saveToLocalStorage();
@@ -582,6 +618,7 @@
             
             let valTitle = currentLang === 'my' ? note.title_my : note.title_en;
             let valDesc = currentLang === 'my' ? note.desc_my : note.desc_en;
+            let valDate = note.date || '';
             
             if (valTitle === "undefined" || !valTitle) valTitle = "";
             if (valDesc === "undefined" || !valDesc) valDesc = "";
@@ -605,7 +642,6 @@
                     </div>`;
             }
 
-            // Check if photos are maxed out (4 photos limit)
             const isMaxPhotos = note.images && note.images.length >= 4;
 
             const cardHTML = `
@@ -630,28 +666,54 @@
                            contenteditable="true">${valDesc}</p>
                     </div>
 
-                    <div class="border-t border-stone-200 dark:border-stone-800 pt-4 mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
-                        <div class="flex items-center gap-1">
-                            <span class="text-stone-500 dark:text-stone-400 font-medium mr-1">${d.chooseLayout}</span>
-                            <select onchange="changeNoteLayout(${note.id}, this.value)" class="bg-stone-100 dark:bg-stone-800 px-2 py-1 rounded-lg border-none text-stone-800 dark:text-stone-200 font-medium focus:ring-1 focus:ring-amber-500">
-                                <option value="default" ${note.layout==='default'?'selected':''}>Default</option>
-                                <option value="grid" ${note.layout==='grid'?'selected':''}>Grid</option>
-                                <option value="collage" ${note.layout==='collage'?'selected':''}>Collage</option>
-                                <option value="love" ${note.layout==='love'?'selected':''}>❤️ Love Shape</option>
-                            </select>
+                    <div class="border-t border-stone-200 dark:border-stone-800 pt-4 mt-2 space-y-3 text-xs">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-1">
+                                <span class="text-stone-500 dark:text-stone-400 font-medium mr-1">${d.chooseLayout}</span>
+                                <select onchange="changeNoteLayout(${note.id}, this.value)" class="bg-stone-100 dark:bg-stone-800 px-2 py-1 rounded-lg border-none text-stone-800 dark:text-stone-200 font-medium focus:ring-1 focus:ring-amber-500">
+                                    <option value="default" ${note.layout==='default'?'selected':''}>Default</option>
+                                    <option value="grid" ${note.layout==='grid'?'selected':''}>Grid</option>
+                                    <option value="collage" ${note.layout==='collage'?'selected':''}>Collage</option>
+                                    <option value="love" ${note.layout==='love'?'selected':''}>❤️ Love Shape</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex items-center gap-1 bg-stone-100 dark:bg-stone-800 px-2.5 py-1 rounded-lg">
+                                <span class="text-stone-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                </span>
+                                <input type="date" id="note-date-${note.id}" value="${valDate}" onchange="saveNoteDate(${note.id}, this.value)" class="bg-transparent border-none text-stone-700 dark:text-stone-300 font-medium focus:outline-none cursor-pointer">
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2 font-bold">
-                            <!-- Conditionally show or hide the Add More button based on photo limit -->
-                            <button onclick="document.getElementById('upload-note-img-${note.id}').click()" 
-                                    class="text-amber-800 dark:text-amber-500 hover:underline ${isMaxPhotos ? 'hidden' : ''}">
-                                ${d.addMore}
+
+                        <div class="flex items-center justify-between font-bold pt-1">
+                            <div class="flex gap-4">
+                                <button onclick="document.getElementById('upload-note-img-${note.id}').click()" 
+                                        class="text-amber-800 dark:text-amber-500 hover:underline ${isMaxPhotos ? 'hidden' : ''}">
+                                    ${d.addMore}
+                                </button>
+                                <button onclick="triggerClearImages(${note.id})" class="text-rose-600 dark:text-rose-400 hover:underline">${d.clearAll}</button>
+                            </div>
+                            
+                            <!-- SAVE BUTTON STARTS INVISIBLE (HIDDEN) -->
+                            <button id="save-btn-${note.id}" onclick="manualSaveNoteCard(${note.id})" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3.5 py-1.5 rounded-lg shadow-sm items-center gap-1 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+                                <span>${d.btnSaveText}</span>
                             </button>
-                            <button onclick="triggerClearImages(${note.id})" class="text-rose-600 dark:text-rose-400 hover:underline">${d.clearAll}</button>
                         </div>
                     </div>
                 </div>`;
 
             container.insertAdjacentHTML('beforeend', cardHTML);
+
+            // Trigger button visibility when text changes
+            const inputTrigger = () => {
+                const btn = document.getElementById(`save-btn-${note.id}`);
+                if (btn) btn.classList.replace('hidden', 'flex');
+            };
+
+            document.getElementById(`note-title-${note.id}`).addEventListener('input', inputTrigger);
+            document.getElementById(`note-desc-${note.id}`).addEventListener('input', inputTrigger);
 
             document.getElementById(`note-title-${note.id}`).addEventListener('blur', (e) => {
                 const txt = e.target.innerText.trim();
@@ -667,6 +729,40 @@
             });
         }
 
+        // SAVE SUCCESS ACTION -> HIDES BUTTON AUTOMATICALLY
+        function manualSaveNoteCard(noteId) {
+            const note = appData.notes.find(n => n.id === noteId);
+            if (note) {
+                const titleText = document.getElementById(`note-title-${noteId}`).innerText.trim();
+                const descText = document.getElementById(`note-desc-${noteId}`).innerText.trim();
+                
+                if (currentLang === 'my') {
+                    note.title_my = titleText;
+                    note.desc_my = descText;
+                } else {
+                    note.title_en = titleText;
+                    note.desc_en = descText;
+                }
+                
+                saveToLocalStorage();
+                
+                // Hide the save button back after successful save
+                const btn = document.getElementById(`save-btn-${noteId}`);
+                if (btn) btn.classList.replace('flex', 'hidden');
+
+                const msg = currentLang === 'my' ? "မှတ်စုကို အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ။" : "Note saved successfully.";
+                showCustomToast(msg, false);
+            }
+        }
+
+        function saveNoteDate(noteId, dateValue) {
+            const note = appData.notes.find(n => n.id === noteId);
+            if (note) {
+                note.date = dateValue;
+                saveToLocalStorage();
+            }
+        }
+
         function handleNoteImagesUpload(event, noteId) {
             const files = event.target.files;
             if (!files.length) return;
@@ -675,7 +771,7 @@
 
             let loadedCount = 0;
             for (let i = 0; i < files.length; i++) {
-                if (note.images.length >= 4) break; // Hard limit at 4 photos
+                if (note.images.length >= 4) break; 
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     note.images.push(e.target.result);
@@ -745,39 +841,17 @@
                 activeDeleteId = null;
             }, 300);
         }
-        function openSettingsModal() {
-            // ဆက်တင်ဖွင့်တိုင်း ပထမဆုံး Menu ခလုတ်တွေကိုပဲ ပြပေးမယ်
-            showSettingsMenu();
-            
-            const modal = document.getElementById('settings-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
 
-        function closeSettingsModal() {
-            const modal = document.getElementById('settings-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        // Sub Panel တွေကိုပြောင်းပေးမယ့် Function
         function openSettingsTab(tabName) {
-            // အဓိက Menu ကို ဖျောက်မယ်
             document.getElementById('settings-main-menu').classList.add('hidden');
-            
-            // Sub Panels အားလုံးကို အရင် ဖျောက်မယ်
             document.getElementById('panel-language').classList.add('hidden');
             document.getElementById('panel-themes').classList.add('hidden');
             document.getElementById('panel-security').classList.add('hidden');
             
-            // ရွေးချယ်လိုက်တဲ့ Panel တစ်ခုတည်းကိုပဲ ပြပေးမယ်
             document.getElementById(`panel-${tabName}`).classList.remove('hidden');
-            
-            // Back Button လေးကို ဖော်ပေးမယ်
             document.getElementById('btn-settings-back').classList.remove('hidden');
         }
 
-        // မူလ Menu အပြင်အဆင်ဆီ ပြန်သွားမယ့် Function (Back Button နှိပ်ရင်သုံးမယ်)
         function showSettingsMenu() {
             document.getElementById('settings-main-menu').classList.remove('hidden');
             document.getElementById('panel-language').classList.add('hidden');
