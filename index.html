@@ -69,14 +69,14 @@
 <body class="theme-cream text-stone-900 dark:text-stone-100 antialiased min-h-screen relative transition-colors duration-300">
 
     <!-- PIN LOCK SCREEN OVERLAY -->
-    <div id="lock-screen" class="fixed inset-0 bg-stone-100 dark:bg-stone-950 z-[100] flex flex-col items-center justify-center p-4 transition-all duration-300">
+    <div id="lock-screen" class="fixed inset-0 bg-stone-100 dark:bg-stone-950 z-[100] flex flex-col items-center justify-center p-4 transition-all duration-200">
         <div class="max-w-xs w-full text-center bg-white dark:bg-stone-900 p-8 rounded-3xl shadow-2xl border border-stone-200 dark:border-stone-800">
             <div class="w-16 h-16 bg-amber-100 dark:bg-amber-950/50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
             </div>
             <h2 id="text-lock-title" class="text-xl font-bold mb-1 text-stone-950 dark:text-white">လုံခြုံရေး ကုဒ်ရိုက်ပါ</h2>
             <p id="text-lock-sub" class="text-xs text-stone-500 dark:text-stone-400 mb-6">နမူနာ ကုဒ်မှာ 1234 ဖြစ်သည်</p>
-            <input type="password" id="pin-input" maxlength="6" class="w-full text-center tracking-widest text-2xl font-bold border border-stone-300 dark:border-stone-700 bg-transparent py-2.5 rounded-xl mb-4 focus:outline-none focus:border-amber-600 text-stone-900 dark:text-white" placeholder="••••">
+            <input type="password" id="pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" class="w-full text-center tracking-widest text-2xl font-bold border border-stone-300 dark:border-stone-700 bg-transparent py-2.5 rounded-xl mb-4 focus:outline-none focus:border-amber-600 text-stone-900 dark:text-white" placeholder="••••">
             <button onclick="checkPIN()" class="w-full bg-stone-900 dark:bg-amber-700 hover:bg-stone-800 dark:hover:bg-amber-600 text-white font-medium py-2.5 rounded-xl text-sm transition-all shadow">အတည်ပြုမည်</button>
             <p id="pin-error" class="text-rose-500 text-xs mt-3 hidden">လျှို့ဝှက်နံပါတ် မှားယွင်းနေပါသည်။</p>
         </div>
@@ -84,7 +84,7 @@
     
 
     <!-- MAIN APP WRAPPER -->
-    <div id="main-app-content" class="blur-md pointer-events-none">
+    <div id="main-app-content" class="blur-md pointer-events-none transition-all duration-200">
         
         <div class="absolute inset-0 bg-pattern opacity-70 pointer-events-none z-0"></div>
         <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-amber-300/20 dark:bg-amber-900/10 rounded-full blur-[120px] pointer-events-none z-0 animate-pulse" style="animation-duration: 8s;"></div>
@@ -105,7 +105,7 @@
                 <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
             </button>
             <button onclick="openSettingsModal()" class="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/xl" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -246,7 +246,7 @@
                 </button>
             </div>
 
-            <div id="panel-language" class="hidden animate-fadeIn">
+            <div id="panel-language" class="hidden">
                 <label id="text-lang-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-2.5">ဘာသာစကား (Language)</label>
                 <div class="grid grid-cols-2 gap-2 bg-stone-100 dark:bg-stone-800 p-1 rounded-xl">
                     <button id="lang-my" onclick="switchLanguage('my')" class="text-xs py-2 rounded-lg font-bold transition-all">မြန်မာ</button>
@@ -254,7 +254,7 @@
                 </div>
             </div>
             
-            <div id="panel-themes" class="hidden animate-fadeIn">
+            <div id="panel-themes" class="hidden">
                 <label id="text-theme-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-3">နောက်ခံအရောင် ရွေးချယ်ရန် (Themes)</label>
                 <div class="grid grid-cols-4 gap-3">
                     <button onclick="setAppTheme('cream')" class="h-10 rounded-xl bg-[#f7ede2] border flex items-center justify-center transition-all scale-105" id="theme-btn-cream" title="Warm Amber"></button>
@@ -264,10 +264,10 @@
                 </div>
             </div>
 
-            <div id="panel-security" class="hidden animate-fadeIn">
+            <div id="panel-security" class="hidden">
                 <label id="text-pin-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-3">လုံခြုံရေးကုဒ် ပြောင်းလဲရန်</label>
                 <div class="flex flex-col gap-3">
-                    <input type="password" id="new-pin-input" maxlength="6" class="w-full text-center text-sm border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-2.5 rounded-xl text-stone-900 dark:text-white focus:outline-none focus:border-amber-500" placeholder="PIN နံပါတ်အသစ် (ဂဏန်း ၄ လုံးမှ ၆ လုံး)">
+                    <input type="password" id="new-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" class="w-full text-center text-sm border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-2.5 rounded-xl text-stone-900 dark:text-white focus:outline-none focus:border-amber-500" placeholder="PIN နံပါတ်အသစ် (ဂဏန်း ၄ လုံးမှ ၆ လုံး)">
                     <button onclick="changeSystemPIN()" id="btn-change-pin" class="bg-stone-900 dark:bg-amber-700 text-white text-xs font-bold py-2.5 rounded-xl hover:bg-stone-800 dark:hover:bg-amber-600 transition-all shadow-sm">PIN နံပါတ်အသစ် ပြောင်းမည်</button>
                 </div>
             </div>
@@ -383,11 +383,17 @@
             setupTextListeners();
         });
 
+        // FIXED ANDROID PIN LOCK ACTION
         function checkPIN() {
-            if (document.getElementById('pin-input').value === appData.pinCode) {
-                document.getElementById('lock-screen').classList.add('opacity-0', 'pointer-events-none');
-                document.getElementById('main-app-content').classList.remove('blur-md', 'pointer-events-none');
-                setTimeout(() => document.getElementById('lock-screen').classList.add('hidden'), 300);
+            const enteredPin = document.getElementById('pin-input').value.trim();
+            if (enteredPin === appData.pinCode) {
+                // Remove blur and lock screen immediately without blocking
+                const lockScreen = document.getElementById('lock-screen');
+                const mainApp = document.getElementById('main-app-content');
+                
+                lockScreen.style.display = 'none'; 
+                mainApp.classList.remove('blur-md', 'pointer-events-none');
+                document.getElementById('pin-error').classList.add('hidden');
             } else {
                 document.getElementById('pin-error').classList.remove('hidden');
             }
@@ -534,7 +540,7 @@
             document.getElementById('text-main-title').innerText = st['text-main-title'] !== undefined ? st['text-main-title'] : data.mainTitle;
             document.getElementById('text-main-subtitle').innerText = st['text-main-subtitle'] !== undefined ? st['text-main-subtitle'] : data.mainSubtitle;
             document.getElementById('text-father-title').innerText = st['text-father-title'] !== undefined ? st['text-father-title'] : data.fatherTitle;
-            document.getElementById('text-father-sub'] .innerText = st['text-father-sub'] !== undefined ? st['text-father-sub'] : data.fatherSub;
+            document.getElementById('text-father-sub') .innerText = st['text-father-sub'] !== undefined ? st['text-father-sub'] : data.fatherSub;
             document.getElementById('text-father-desc').innerText = st['text-father-desc'] !== undefined ? st['text-father-desc'] : data.fatherDesc;
             document.getElementById('text-mother-title').innerText = st['text-mother-title'] !== undefined ? st['text-mother-title'] : data.motherTitle;
             document.getElementById('text-mother-sub').innerText = st['text-mother-sub'] !== undefined ? st['text-mother-sub'] : data.motherSub;
@@ -645,7 +651,7 @@
             const isMaxPhotos = note.images && note.images.length >= 4;
 
             const cardHTML = `
-                <div class="relative bg-white/95 dark:bg-stone-900/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-md border border-stone-200/60 dark:border-stone-800 p-6 flex flex-col justify-between animate-fadeIn" id="note-card-${note.id}">
+                <div class="relative bg-white/95 dark:bg-stone-900/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-md border border-stone-200/60 dark:border-stone-800 p-6 flex flex-col justify-between" id="note-card-${note.id}">
                     
                     <button onclick="triggerDeleteNoteCard(${note.id})" class="absolute top-4 right-4 z-20 w-7 h-7 bg-stone-100 hover:bg-rose-100 dark:bg-stone-800 dark:hover:bg-rose-950/50 text-stone-400 hover:text-rose-600 rounded-full flex items-center justify-center transition-colors shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -695,7 +701,6 @@
                                 <button onclick="triggerClearImages(${note.id})" class="text-rose-600 dark:text-rose-400 hover:underline">${d.clearAll}</button>
                             </div>
                             
-                            <!-- SAVE BUTTON STARTS INVISIBLE (HIDDEN) -->
                             <button id="save-btn-${note.id}" onclick="manualSaveNoteCard(${note.id})" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3.5 py-1.5 rounded-lg shadow-sm items-center gap-1 transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
                                 <span>${d.btnSaveText}</span>
@@ -706,9 +711,8 @@
 
             container.insertAdjacentHTML('beforeend', cardHTML);
 
-            // Trigger button visibility when text changes
             const inputTrigger = () => {
-                const btn = document.getElementById(`save-btn-${note.id}`);
+                const btn = document.getElementById('save-btn-' + note.id);
                 if (btn) btn.classList.replace('hidden', 'flex');
             };
 
@@ -729,7 +733,6 @@
             });
         }
 
-        // SAVE SUCCESS ACTION -> HIDES BUTTON AUTOMATICALLY
         function manualSaveNoteCard(noteId) {
             const note = appData.notes.find(n => n.id === noteId);
             if (note) {
@@ -746,7 +749,6 @@
                 
                 saveToLocalStorage();
                 
-                // Hide the save button back after successful save
                 const btn = document.getElementById(`save-btn-${noteId}`);
                 if (btn) btn.classList.replace('flex', 'hidden');
 
