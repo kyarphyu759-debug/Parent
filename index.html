@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memories of Us</title>
+    
+    <meta name="theme-color" content="#fcf8f2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Memories">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Playfair Display', 'Pyidaungsu', sans-serif; }
+        .bg-pattern {
+            background-image: radial-gradient(#e7e5e4 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .dark .bg-pattern {
+            background-image: radial-gradient(#44403c 1px, transparent 1px);
+        }
+        
+        [contenteditable="true"] {
+            display: block;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        [contenteditable="true"]:empty::before {
+            content: attr(placeholder);
+            color: #a8a29e; 
+            font-style: italic;
+            cursor: text;
+        }
+        [contenteditable="true"]:hover {
+            background-color: rgba(217, 119, 6, 0.04);
+            outline: 1px dashed #d97706;
+            border-radius: 8px;
+        }
+        [contenteditable="true"]:focus {
+            background-color: rgba(217, 119, 6, 0.06);
+            outline: 2px solid #b45309;
+            border-radius: 8px;
+        }
+        
+        .layout-love img {
+            clip-path: url(#love-clip);
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+        
+        body.theme-cream { background-color: #f7ede2; } 
+        body.theme-rose { background-color: #fce7f3; }  
+        body.theme-sage { background-color: #d1fae5; }  
+        body.theme-slate { background-color: #e0f2fe; } 
+
+        .dark.theme-cream, .dark .theme-cream { background-color: #1c1917 !important; }
+        .dark.theme-rose, .dark .theme-rose { background-color: #2e101c !important; }
+        .dark.theme-sage, .dark .theme-sage { background-color: #062f1d !important; }
+        .dark.theme-slate, .dark .theme-slate { background-color: #0c2340 !important; }
+    </style>
+</head>
+<body class="theme-cream text-stone-900 dark:text-stone-100 antialiased min-h-screen relative transition-colors duration-300">
+
+    <!-- PIN LOCK SCREEN OVERLAY -->
+    <div id="lock-screen" class="fixed inset-0 bg-stone-100 dark:bg-stone-950 z-[100] flex flex-col items-center justify-center p-4 transition-all duration-300">
+        <div class="max-w-xs w-full text-center bg-white dark:bg-stone-900 p-8 rounded-3xl shadow-2xl border border-stone-200 dark:border-stone-800">
+            <div class="w-16 h-16 bg-amber-100 dark:bg-amber-950/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            </div>
+            <h2 id="text-lock-title" class="text-xl font-bold mb-1 text-stone-950 dark:text-white">လုံခြုံရေး ကုဒ်ရိုက်ပါ</h2>
+            <p id="text-lock-sub" class="text-xs text-stone-500 dark:text-stone-400 mb-6">နမူနာ ကုဒ်မှာ 1234 ဖြစ်သည်</p>
+            <input type="password" id="pin-input" maxlength="6" class="w-full text-center tracking-widest text-2xl font-bold border border-stone-300 dark:border-stone-700 bg-transparent py-2.5 rounded-xl mb-4 focus:outline-none focus:border-amber-600 text-stone-900 dark:text-white" placeholder="••••">
+            <button onclick="checkPIN()" class="w-full bg-stone-900 dark:bg-amber-700 hover:bg-stone-800 dark:hover:bg-amber-600 text-white font-medium py-2.5 rounded-xl text-sm transition-all shadow">အတည်ပြုမည်</button>
+            <p id="pin-error" class="text-rose-500 text-xs mt-3 hidden">လျှို့ဝှက်နံပါတ် မှားယွင်းနေပါသည်။</p>
+        </div>
+    </div>
+    
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="main-app-content" class="blur-md pointer-events-none">
+        
+        <div class="absolute inset-0 bg-pattern opacity-70 pointer-events-none z-0"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-amber-300/20 dark:bg-amber-900/10 rounded-full blur-[120px] pointer-events-none z-0 animate-pulse" style="animation-duration: 8s;"></div>
+        <div class="absolute top-[30%] right-[-5%] w-[40vw] h-[40vw] bg-rose-200/30 dark:bg-rose-950/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+
+        <svg class="absolute w-0 h-0" width="0" height="0">
+            <defs>
+                <clipPath id="love-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M 0.5, 0.24 C 0.46, 0.07, 0.27, -0.07, 0.09, 0.06 C -0.11, 0.24, 0.04, 0.58, 0.5, 0.95 C 0.96, 0.58, 1.11, 0.24, 0.91, 0.06 C 0.73, -0.07, 0.54, 0.07, 0.5, 0.24 Z" />
+                </clipPath>
+            </defs>
+        </svg>
+
+        <!-- TOP FLOATING CONTROL BAR (Cleaned up Language Selector) -->
+        <div class="fixed top-4 right-4 z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md px-3 py-2 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 flex items-center gap-3">
+            <button onclick="toggleDarkMode()" class="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition-colors">
+                <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
+                <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+            <button onclick="openSettingsModal()" class="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- HEADER -->
+        <header class="relative py-20 text-center z-10">
+            <div class="max-w-4xl mx-auto px-6">
+                <span id="text-archive-tag" class="text-xs uppercase tracking-widest text-amber-800 dark:text-amber-400 font-bold mb-3 block">Family Archive</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-stone-950 dark:text-stone-50 tracking-tight mb-4" contenteditable="true" id="text-main-title" placeholder="အမှတ်တရခေါင်းစဉ်">Memories of Us</h1>
+                <p class="text-md md:text-lg text-stone-700 dark:text-stone-300 italic max-w-xl mx-auto font-light" contenteditable="true" id="text-main-subtitle" placeholder="စာသားငယ်ထည့်ရန်">"မိဘတို့ရဲ့ မေတ္တာရိပ်နဲ့ ဖြတ်သန်းခဲ့ရတဲ့ အဖိုးတန်နေ့ရက်များ"</p>
+                <div class="flex items-center justify-center gap-2 mt-8">
+                    <div class="w-12 h-[1px] bg-stone-400 dark:bg-stone-600"></div>
+                    <div class="w-2 h-2 rounded-full bg-amber-600"></div>
+                    <div class="w-12 h-[1px] bg-stone-400 dark:bg-stone-600"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <main class="max-w-6xl mx-auto px-4 py-4 relative z-10">
+            
+            <!-- SECTION 1 -->
+            <section class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 id="text-section1-title" class="text-2xl md:text-3xl font-bold tracking-wide relative inline-block text-stone-950 dark:text-stone-50">ကျေးဇူးရှင် မိဘနှစ်ပါး</h2>
+                    <div class="w-8 h-[2px] bg-amber-600 mx-auto mt-2"></div>
+                    <p id="text-section1-help" class="text-xs text-stone-500 dark:text-stone-400 mt-3">(ပုံများနှင့် စာသားများကို တိုက်ရိုက်နှိပ်၍ ပြင်ဆင်နိုင်ပါသည်)</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Father Card -->
+                    <div class="bg-white/95 dark:bg-stone-900/90 backdrop-blur-md p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-md flex flex-col items-center">
+                        <input type="file" id="father-upload" accept="image/*" class="hidden" onchange="previewProfileImage(event, 'father-img', 'father-placeholder')">
+                        <div onclick="document.getElementById('father-upload').click()" class="group relative w-36 h-36 bg-stone-200 dark:bg-stone-800 rounded-full mb-6 overflow-hidden flex items-center justify-center text-stone-500 dark:text-stone-400 cursor-pointer border border-stone-300 dark:border-stone-700">
+                            <span id="father-placeholder" class="text-sm font-medium">[ ဖေဖေ ]</span>
+                            <img id="father-img" class="hidden w-full h-full object-cover absolute top-0 left-0" alt="Father Profile">
+                            <div id="text-father-hover" class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">ပုံပြောင်းရန်</div>
+                        </div>
+                        <h3 id="text-father-title" class="text-xl font-bold mb-1 text-stone-950 dark:text-stone-50 min-h-[1.5em]" contenteditable="true" placeholder="အမည်">ဖေဖေ</h3>
+                        <p id="text-father-sub" class="text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 font-bold mb-4 min-h-[1.5em]" contenteditable="true" placeholder="ဂုဏ်ပုဒ်">လမ်းပြကြယ်၊ အားကိုးရာ</p>
+                        <p id="text-father-desc" class="text-stone-800 dark:text-stone-300 text-sm text-center max-w-xs leading-relaxed min-h-[3em]" contenteditable="true" placeholder="အကြောင်းအရာလေးများ...">"သားသမီးတွေအတွက် ဘဝကို မညည်းမညူ တည်ဆောက်ပေးခဲ့တဲ့ စံပြလူသား။"</p>
+                    </div>
+
+                    <!-- Mother Card -->
+                    <div class="bg-white/95 dark:bg-stone-900/90 backdrop-blur-md p-8 rounded-3xl border border-stone-200/60 dark:border-stone-800 shadow-md flex flex-col items-center">
+                        <input type="file" id="mother-upload" accept="image/*" class="hidden" onchange="previewProfileImage(event, 'mother-img', 'mother-placeholder')">
+                        <div onclick="document.getElementById('mother-upload').click()" class="group relative w-36 h-36 bg-stone-200 dark:bg-stone-800 rounded-full mb-6 overflow-hidden flex items-center justify-center text-stone-500 dark:text-stone-400 cursor-pointer border border-stone-300 dark:border-stone-700">
+                            <span id="mother-placeholder" class="text-sm font-medium">[ မေမေ ]</span>
+                            <img id="mother-img" class="hidden w-full h-full object-cover absolute top-0 left-0" alt="Mother Profile">
+                            <div id="text-mother-hover" class="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs">ပုံပြောင်းရန်</div>
+                        </div>
+                        <h3 id="text-mother-title" class="text-xl font-bold mb-1 text-stone-950 dark:text-stone-50 min-h-[1.5em]" contenteditable="true" placeholder="အမည်">မေမေ</h3>
+                        <p id="text-mother-sub" class="text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 font-bold mb-4 min-h-[1.5em]" contenteditable="true" placeholder="ဂုဏ်ပုဒ်">မေတ္တာရှင်၊ အနွေးထွေးဆုံးရင်ခွင်</p>
+                        <p id="text-mother-desc" class="text-stone-800 dark:text-stone-300 text-sm text-center max-w-xs leading-relaxed min-h-[3em]" contenteditable="true" placeholder="အကြောင်းအရာလေးများ...">"ကမ္ဘာပေါ်မှာ အလိုအပ်ဆုံးအချိန်တိုင်း အနားမှာ အမြဲရှိပေးခဲ့တဲ့ စစ်မှန်တဲ့မေတ္တာရှင်။"</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2 -->
+            <section class="mb-16">
+                <div class="flex flex-col sm:flex-row justify-between items-center border-b border-stone-300 dark:border-stone-700 pb-5 mb-8 gap-4">
+                    <div>
+                        <h2 id="text-section2-title" class="text-2xl font-bold text-stone-950 dark:text-stone-50">အမှတ်တရ မှတ်စုများ</h2>
+                        <p id="text-section2-help" class="text-xs text-stone-500 dark:text-stone-400 mt-1">(ပုံတင်ပြီးပါက Layout ပုံစံ အမျိုးမျိုး စိတ်ကြိုက် ပြောင်းလဲနိုင်သည်)</p>
+                    </div>
+                    <button id="btn-add-note" onclick="addNoteCard()" class="bg-stone-900 dark:bg-amber-700 hover:bg-stone-800 dark:hover:bg-amber-600 text-white font-medium px-5 py-2.5 rounded-xl text-sm shadow flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/xl" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                        <span id="text-btn-add">မှတ်စုအသစ်တိုးရန်</span>
+                    </button>
+                </div>
+
+                <div id="notes-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Cards injection container via JS -->
+                </div>
+            </section>
+
+            <!-- SECTION 3 -->
+            <section class="mb-20 max-w-4xl mx-auto">
+                <h2 id="text-section3-title" class="text-2xl font-bold mb-8 text-center text-stone-950 dark:text-stone-50">မိဘတို့ရဲ့ ဆုံးမစကားနဲ့ အမှတ်တရများ</h2>
+                <div class="space-y-6">
+                    <div class="bg-white/95 dark:bg-stone-900/90 border-l-4 border-amber-600 p-6 rounded-r-2xl border border-stone-200/60 dark:border-stone-800 shadow-sm">
+                        <p id="text-quote1" class="italic text-stone-800 dark:text-stone-200 text-base md:text-lg leading-relaxed min-h-[2em]" contenteditable="true" placeholder="ဆုံးမစကား ရေးရန်...">"ဘယ်လိုအခြေအနေမျိုးပဲရောက်ရောက် ကိုယ်ကျင့်တရားကိုတော့ ဘယ်တော့မှ အောက်ခြေမကျစေနဲ့။"</p>
+                        <span id="text-quote1-author" class="block text-right text-xs font-bold text-amber-800 dark:text-amber-400 mt-3 min-h-[1.5em]" contenteditable="true" placeholder="ရေးသားသူ">— ဖေဖေ့ရဲ့ ဆုံးမစကား</span>
+                    </div>
+                    <div class="bg-white/95 dark:bg-stone-900/90 border-l-4 border-amber-600 p-6 rounded-r-2xl border border-stone-200/60 dark:border-stone-800 shadow-sm">
+                        <p id="text-quote2" class="italic text-stone-800 dark:text-stone-200 text-base md:text-lg leading-relaxed min-h-[2em]" contenteditable="true" placeholder="ဆုံးမစကား ရေးရန်...">"ကျန်းမာအောင်နေ၊ စိတ်ချမ်းသာအောင်နေ။ သားသမီးတွေ အဆင်ပြေနေရင် မေမေတို့က ကြည့်ပြီး ပျော်နေရုံပဲ။"</p>
+                        <span id="text-quote2-author" class="block text-right text-xs font-bold text-amber-800 dark:text-amber-400 mt-3 min-h-[1.5em]" contenteditable="true" placeholder="ရေးသားသူ">— မေမေ့ရဲ့ စကားစုလေးများ</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="bg-stone-950 text-stone-400 py-10 text-center text-sm border-t border-stone-800">
+            <p>© 2026 Crafted with ❤️ for Mom & Dad.</p>
+        </footer>
+    </div>
+
+<!-- MAIN SETTINGS MODAL (With Sub-menus / Tabs) -->
+    <div id="settings-modal" class="fixed inset-0 bg-stone-950/50 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-stone-900 rounded-3xl p-6 max-w-sm w-full mx-4 shadow-2xl border border-stone-200 dark:border-stone-800">
+            
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-2">
+                    <!-- Back Button (Will show inside sub-menus) -->
+                    <button id="btn-settings-back" onclick="showSettingsMenu()" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <h3 id="text-settings-title" class="text-lg font-bold text-stone-950 dark:text-white">ဆက်တင်များ (Settings)</h3>
+                </div>
+                <button onclick="closeSettingsModal()" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+
+            <!-- 1. MAIN MENU BUTTONS (Shown first) -->
+            <div id="settings-main-menu" class="space-y-3">
+                <button onclick="openSettingsTab('language')" class="w-full flex justify-between items-center bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700/80 px-4 py-3 rounded-xl font-medium text-sm text-stone-800 dark:text-stone-200 transition-all border border-stone-200/40 dark:border-stone-700/40">
+                    <span id="menu-lang-text">ဘာသာစကား (Language)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </button>
+                <button onclick="openSettingsTab('themes')" class="w-full flex justify-between items-center bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700/80 px-4 py-3 rounded-xl font-medium text-sm text-stone-800 dark:text-stone-200 transition-all border border-stone-200/40 dark:border-stone-700/40">
+                    <span id="menu-theme-text">နောက်ခံအရောင် (Themes)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </button>
+                <button onclick="openSettingsTab('security')" class="w-full flex justify-between items-center bg-stone-50 hover:bg-stone-100 dark:bg-stone-800 dark:hover:bg-stone-700/80 px-4 py-3 rounded-xl font-medium text-sm text-stone-800 dark:text-stone-200 transition-all border border-stone-200/40 dark:border-stone-700/40">
+                    <span id="menu-security-text">လုံခြုံရေးကုဒ် (Security PIN)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </button>
+            </div>
+
+            <!-- 2. SUB PANELS (Hidden initially) -->
+            <!-- Language Sub Panel -->
+            <div id="panel-language" class="hidden animate-fadeIn">
+                <label id="text-lang-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-2.5">ဘာသာစကား (Language)</label>
+                <div class="grid grid-cols-2 gap-2 bg-stone-100 dark:bg-stone-800 p-1 rounded-xl">
+                    <button id="lang-my" onclick="switchLanguage('my')" class="text-xs py-2 rounded-lg font-bold transition-all">မြန်မာ</button>
+                    <button id="lang-en" onclick="switchLanguage('en')" class="text-xs py-2 rounded-lg font-bold transition-all">English</button>
+                </div>
+            </div>
+            
+            <!-- Themes Sub Panel -->
+            <div id="panel-themes" class="hidden animate-fadeIn">
+                <label id="text-theme-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-3">နောက်ခံအရောင် ရွေးချယ်ရန် (Themes)</label>
+                <div class="grid grid-cols-4 gap-3">
+                    <button onclick="setAppTheme('cream')" class="h-10 rounded-xl bg-[#f7ede2] border flex items-center justify-center transition-all shadow-md" id="theme-btn-cream" title="Warm Amber"></button>
+                    <button onclick="setAppTheme('rose')" class="h-10 rounded-xl bg-[#fce7f3] border border-stone-300 dark:border-stone-700 transition-all shadow-md" id="theme-btn-rose" title="Deep Rose"></button>
+                    <button onclick="setAppTheme('sage')" class="h-10 rounded-xl bg-[#d1fae5] border border-stone-300 dark:border-stone-700 transition-all shadow-md" id="theme-btn-sage" title="Emerald Sage"></button>
+                    <button onclick="setAppTheme('slate')" class="h-10 rounded-xl bg-[#e0f2fe] border border-stone-300 dark:border-stone-700 transition-all shadow-md" id="theme-btn-slate" title="Luxury Sapphire"></button>
+                </div>
+            </div>
+
+            <!-- Security Sub Panel -->
+            <div id="panel-security" class="hidden animate-fadeIn">
+                <label id="text-pin-label" class="block text-xs font-bold uppercase text-stone-400 dark:text-stone-500 tracking-wider mb-3">လုံခြုံရေးကုဒ် ပြောင်းလဲရန်</label>
+                <div class="flex flex-col gap-3">
+                    <input type="password" id="new-pin-input" maxlength="6" class="w-full text-center text-sm border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-2.5 rounded-xl text-stone-900 dark:text-white focus:outline-none focus:border-amber-500" placeholder="PIN နံပါတ်အသစ် (ဂဏန်း ၄ လုံးမှ ၆ လုံး)">
+                    <button onclick="changeSystemPIN()" id="btn-change-pin" class="bg-stone-900 dark:bg-amber-700 text-white text-xs font-bold py-2.5 rounded-xl hover:bg-stone-800 dark:hover:bg-amber-600 transition-all shadow-sm">PIN နံပါတ်အသစ် ပြောင်းမည်</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST MODAL -->
+    <div id="success-toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-stone-900 text-white dark:bg-white dark:text-stone-900 px-6 py-3.5 rounded-2xl shadow-2xl z-[150] flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none">
+        <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+        </div>
+        <span id="success-toast-text" class="text-xs font-bold tracking-wide">PIN နံပါတ် ပြောင်းလဲပြီးပါပြီ။</span>
+    </div>
+
+    <!-- CONFIRM MODAL -->
+    <div id="custom-confirm-modal" class="fixed inset-0 bg-stone-950/50 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-stone-900 rounded-3xl p-6 max-w-md w-full mx-4 shadow-2xl border border-stone-200 dark:border-stone-800">
+            <h3 id="text-modal-title" class="text-lg font-bold mb-2 text-stone-950 dark:text-white">ဓာတ်ပုံများ ဖျက်ရန် သေချက်ပါသလား။</h3>
+            <p id="text-modal-desc" class="text-stone-500 dark:text-stone-400 text-sm mb-6">ဒီမှတ်စုအတွင်းမှာ တင်ထားတဲ့ ဓာတ်ပုံအားလုံးကို ဖျက်ပစ်ပါမယ်။</p>
+            <div class="flex justify-end gap-3">
+                <button id="text-modal-cancel" onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-stone-500 dark:text-stone-400 text-sm font-medium hover:bg-stone-100 dark:hover:bg-stone-800">မလုပ်တော့ပါ</button>
+                <button id="text-modal-confirm" class="px-4 py-2 rounded-xl bg-rose-500 text-white text-sm font-medium shadow-sm hover:bg-rose-600">သေချာတယ်</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'my';
+        let activeDeleteId = null;
+        
+        let appData = {
+            pinCode: '1234',
+            darkMode: false,
+            lang: 'my',
+            theme: 'cream',
+            staticTexts: {},
+            profileImages: { father: '', mother: '' },
+            notes: [
+                {
+                    id: 1,
+                    title_my: "ခေါင်းစဉ်အသစ် ရေးရန်",
+                    title_en: "Write New Title",
+                    desc_my: "ဒီမှတ်စုထဲမှာ မိဘတွေနဲ့ ပတ်သက်တဲ့ အကြောင်းအရာတွေကို စိတ်ကြိုက် အသေးစိတ် ရေးသားနိုင်ပါတယ်။",
+                    desc_en: "In this note, you can freely write details about your parents.",
+                    layout: 'default',
+                    images: []
+                }
+            ]
+        };
+
+        const dictionary = {
+            my: {
+                archiveTag: "Family Archive", mainTitle: "Memories of Us", mainSubtitle: `"မိဘတို့ရဲ့ မေတ္တာရိပ်နဲ့ ဖြတ်သန်းခဲ့ရတဲ့ အဖိုးတန်နေ့ရက်များ"`,
+                sec1Title: "ကျေးဇူးရှင် မိဘနှစ်ပါး", sec1Help: "(ပုံများနှင့် စာသားများကို တိုက်ရိုက်နှိပ်၍ ပြင်ဆင်နိုင်ပါသည်)",
+                fatherPlaceholder: "[ ဖေဖေ ]", fatherHover: "ပုံပြောင်းရန်", fatherTitle: "ဖေဖေ", fatherSub: "လမ်းပြကြယ်၊ အားကိုးရာ", fatherDesc: `"သားသမီးတွေအတွက် ဘဝကို မညည်းမညူ တည်ဆောက်ပေးခဲ့တဲ့ စံပြလူသား။"`,
+                motherPlaceholder: "[ မေမေ ]", motherHover: "ပုံပြောင်းရန်", motherTitle: "မေမေ", motherSub: "မေတ္တာရှင်၊ အနွေးထွေးဆုံးရင်ခွင်", motherDesc: `"ကမ္ဘာပေါ်မှာ အလိုအပ်ဆုံးအချိန်တိုင်း အနားမှာ အမြဲရှိပေးခဲ့တဲ့ စစ်မှန်တဲ့မေတ္တာရှင်။"`,
+                sec2Title: "အမှတ်တရ မှတ်စုများ", sec2Help: "(ပုံတင်ပြီးပါက Layout ပုံစံ အမျိုးမျိုး စိတ်ကြိုက် ပြောင်းလဲနိုင်သည်)", btnAdd: "မှတ်စုအသစ်တိုးရန်",
+                chooseLayout: "Layout:", addMore: "Add More (+)", clearAll: "Clear Photos",
+                phTitle: "ခေါင်းစဉ်ရေးရန်", phDesc: "မှတ်စုရေးရန်...",
+                sec3Title: "မိဘတို့ရဲ့ ဆုံးမစကားနဲ့ အမှတ်တရများ", quote1: `"ဘယ်လိုအခြေအနေမျိုးပဲရောက်ရောက် ကိုယ်ကျင့်တရားကိုတော့ ဘယ်တော့မှ အောက်ခြေမကျစေနဲ့။"`, quote1Author: "— ဖေဖေ့ရဲ့ ဆုံးမစကား",
+                quote2: `"ကျန်းမာအောင်နေ၊ စိတ်ချမ်းသာအောင်နေ။ သားသမီးတွေ အဆင်ပြေနေရင် မေမေတို့က ကြည့်ပြီး ပျော်နေရုံပဲ။"`, quote2Author: "— မေမေ့ရဲ့ စကားစုလေးများ",
+                modalTitle: "ဓာတ်ပုံများ ဖျက်ရန် သေချာပါသလား။", modalDesc: "ဒီမှတ်စုအတွင်းမှာ တင်ထားတဲ့ ဓာတ်ပုံအားလုံးကို ဖျက်ပစ်ပါမယ်။",
+                modalTitleCard: "ဤမှတ်စုကတ်ကို ဖျက်ရန် သေချာပါသလား။", modalDescCard: "ဤမှတ်စုတစ်ခုလုံးနှင့် အတွင်းရှိအချက်အလက်အားလုံး ပျက်သွားပါမည်။",
+                modalCancel: "မလုပ်တော့ပါ", modalConfirm: "သေချာတယ်",
+                lockTitle: "Enter Security PIN", lockSub: "Default PIN is 1234",
+                settingsTitle: "ဆက်တင်များ (Settings)", themeLabel: "နောက်ခံအရောင် ရွေးချယ်ရန် (Themes)", langLabel: "ဘာသာစကား (Language)",
+                pinLabel: "လုံခြုံရေးကုဒ် ပြောင်းလဲရန်", btnChangePin: "Update PIN", pinPlaceholder: "Enter PIN",
+                toastSuccess: "PIN နံပါတ် ပြောင်းလဲပြီးပါပြီ။", toastError: "ဂဏန်း အနည်းဆုံး ၄ လုံး ရိုက်ထည့်ပေးပါ။"
+            },
+            en: {
+                archiveTag: "Family Archive", mainTitle: "Memories of Us", mainSubtitle: `"The precious days spent under the loving shelter of our parents."`,
+                sec1Title: "Beloved Parents", sec1Help: "(Click directly on images and text to edit)",
+                fatherPlaceholder: "[ Father ]", fatherHover: "Change Image", fatherTitle: "Father", fatherSub: "Guiding Star, Pillars of Strength", fatherDesc: `"An exemplary human being who built our lives without a single complaint."`,
+                motherPlaceholder: "[ Mother ]", motherHover: "Change Image", motherTitle: "Mother", motherSub: "The Protector, Warmest Bosom", motherDesc: `"The true harbor of love who has always been by our side whenever needed."`,
+                sec2Title: "Memory Notes", sec2Help: "(Once uploaded, you can switch layouts dynamically)", btnAdd: "Add New Note",
+                chooseLayout: "Layout:", addMore: "Add More (+)", clearAll: "Clear Photos",
+                phTitle: "Enter Title", phDesc: "Type your note here...",
+                sec3Title: "Parents' Wisdom & Reminiscences", quote1: `"No matter what situation you face, never let your moral principles hit the rock bottom."`, quote1Author: "— Father's Advice",
+                quote2: `"Stay healthy, live happily. As long as our children are doing fine, we are content just watching you."`, quote2Author: "— Mother's Words",
+                modalTitle: "Are you sure you want to clear photos?", modalDesc: "This will remove all uploaded photos inside this note.",
+                modalTitleCard: "Delete this entire note?", modalDescCard: "All text and images inside this card will be permanently deleted.",
+                modalCancel: "Cancel", modalConfirm: "Yes, Delete",
+                lockTitle: "Enter Security PIN", lockSub: "Default PIN is 1234",
+                settingsTitle: "Settings", themeLabel: "Select Background Theme", langLabel: "Language",
+                pinLabel: "Change Security PIN", btnChangePin: "Update PIN", pinPlaceholder: "Enter 4-6 digit PIN",
+                toastSuccess: "PIN successfully updated.", toastError: "Please input at least 4 digits."
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedData = localStorage.getItem('family_archive_storage');
+            if (savedData) {
+                try {
+                    const parsed = JSON.parse(savedData);
+                    if(parsed.notes) appData = parsed;
+                } catch(e) { console.error(e); }
+            }
+            
+            if (appData.darkMode) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('sun-icon').classList.remove('hidden');
+                document.getElementById('moon-icon').classList.add('hidden');
+            }
+            
+            setAppTheme(appData.theme || 'cream');
+            switchLanguage(appData.lang || 'my');
+            loadProfileImages();
+            setupTextListeners();
+        });
+
+        function checkPIN() {
+            if (document.getElementById('pin-input').value === appData.pinCode) {
+                document.getElementById('lock-screen').classList.add('opacity-0', 'pointer-events-none');
+                document.getElementById('main-app-content').classList.remove('blur-md', 'pointer-events-none');
+                setTimeout(() => document.getElementById('lock-screen').classList.add('hidden'), 300);
+            } else {
+                document.getElementById('pin-error').classList.remove('hidden');
+            }
+        }
+
+        function showCustomToast(message, isError = false) {
+            const toast = document.getElementById('success-toast');
+            const toastText = document.getElementById('success-toast-text');
+            toastText.innerText = message || "";
+            if(isError) toast.classList.add('border', 'border-rose-500');
+            else toast.classList.remove('border', 'border-rose-500');
+
+            toast.classList.remove('opacity-0', 'translate-y-[-20px]', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-[-20px]', 'pointer-events-none');
+            }, 3000);
+        }
+
+        function changeSystemPIN() {
+            const newPin = document.getElementById('new-pin-input').value.trim();
+            if (newPin.length >= 4 && !isNaN(newPin)) {
+                appData.pinCode = newPin;
+                saveToLocalStorage();
+                showCustomToast(dictionary[currentLang].toastSuccess, false);
+                document.getElementById('new-pin-input').value = '';
+                closeSettingsModal();
+            } else {
+                showCustomToast(dictionary[currentLang].toastError, true);
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            appData.darkMode = isDark;
+            saveToLocalStorage();
+            document.getElementById('sun-icon').classList.toggle('hidden', !isDark);
+            document.getElementById('moon-icon').classList.toggle('hidden', isDark);
+            renderAllNotes();
+        }
+
+        function openSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function setAppTheme(themeName) {
+            document.body.classList.remove('theme-cream', 'theme-rose', 'theme-sage', 'theme-slate');
+            document.body.classList.add(`theme-${themeName}`);
+            appData.theme = themeName;
+            saveToLocalStorage();
+
+            ['cream', 'rose', 'sage', 'slate'].forEach(t => {
+                const btn = document.getElementById(`theme-btn-${t}`);
+                if (btn) {
+                    if (t === themeName) btn.className = `h-10 rounded-xl bg-transparent border-2 border-amber-600 flex items-center justify-center transition-all scale-105`;
+                    else btn.className = `h-10 rounded-xl bg-transparent border border-stone-300 dark:border-stone-700 transition-all`;
+                    
+                    if(t === 'cream') btn.style.backgroundColor = '#f7ede2';
+                    if(t === 'rose') btn.style.backgroundColor = '#fce7f3';
+                    if(t === 'sage') btn.style.backgroundColor = '#d1fae5';
+                    if(t === 'slate') btn.style.backgroundColor = '#e0f2fe';
+                }
+            });
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('family_archive_storage', JSON.stringify(appData));
+        }
+
+        function setupTextListeners() {
+            const editableIds = [
+                'text-main-title', 'text-main-subtitle', 'text-father-title', 'text-father-sub', 
+                'text-father-desc', 'text-mother-title', 'text-mother-sub', 'text-mother-desc',
+                'text-quote1', 'text-quote1-author', 'text-quote2', 'text-quote2-author'
+            ];
+            editableIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('blur', () => {
+                        if (!appData.staticTexts) appData.staticTexts = {};
+                        appData.staticTexts[id] = el.innerText.trim();
+                        saveToLocalStorage();
+                    });
+                }
+            });
+        }
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            appData.lang = lang;
+            saveToLocalStorage();
+            
+            const isEn = lang === 'en';
+            
+            // Language Buttons Styling inside Settings Modal
+            document.getElementById('lang-en').className = isEn 
+                ? "text-xs py-2 rounded-lg font-bold bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-950 shadow-sm transition-all" 
+                : "text-xs py-2 rounded-lg font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-700/50 transition-all";
+            
+            document.getElementById('lang-my').className = !isEn 
+                ? "text-xs py-2 rounded-lg font-bold bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-950 shadow-sm transition-all" 
+                : "text-xs py-2 rounded-lg font-bold text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-700/50 transition-all";
+
+            const data = dictionary[lang];
+            document.getElementById('text-archive-tag').innerText = data.archiveTag;
+            document.getElementById('text-section1-title').innerText = data.sec1Title;
+            document.getElementById('text-section1-help').innerText = data.sec1Help;
+            document.getElementById('text-father-hover').innerText = data.fatherHover;
+            document.getElementById('text-mother-hover').innerText = data.motherHover;
+            document.getElementById('text-section2-title').innerText = data.sec2Title;
+            document.getElementById('text-section2-help').innerText = data.sec2Help;
+            document.getElementById('text-btn-add').innerText = data.btnAdd;
+            document.getElementById('text-section3-title').innerText = data.sec3Title;
+            document.getElementById('text-lock-title').innerText = data.lockTitle;
+            document.getElementById('text-lock-sub').innerText = data.lockSub;
+            document.getElementById('text-settings-title').innerText = data.settingsTitle;
+            document.getElementById('text-theme-label').innerText = data.themeLabel;
+            document.getElementById('text-lang-label').innerText = data.langLabel;
+            document.getElementById('text-pin-label').innerText = data.pinLabel;
+            document.getElementById('btn-change-pin').innerText = data.btnChangePin;
+            document.getElementById('new-pin-input').placeholder = data.pinPlaceholder;
+
+            const st = appData.staticTexts || {};
+            document.getElementById('text-main-title').innerText = st['text-main-title'] !== undefined ? st['text-main-title'] : data.mainTitle;
+            document.getElementById('text-main-subtitle').innerText = st['text-main-subtitle'] !== undefined ? st['text-main-subtitle'] : data.mainSubtitle;
+            document.getElementById('text-father-title').innerText = st['text-father-title'] !== undefined ? st['text-father-title'] : data.fatherTitle;
+            document.getElementById('text-father-sub').innerText = st['text-father-sub'] !== undefined ? st['text-father-sub'] : data.fatherSub;
+            document.getElementById('text-father-desc').innerText = st['text-father-desc'] !== undefined ? st['text-father-desc'] : data.fatherDesc;
+            document.getElementById('text-mother-title').innerText = st['text-mother-title'] !== undefined ? st['text-mother-title'] : data.motherTitle;
+            document.getElementById('text-mother-sub').innerText = st['text-mother-sub'] !== undefined ? st['text-mother-sub'] : data.motherSub;
+            document.getElementById('text-mother-desc').innerText = st['text-mother-desc'] !== undefined ? st['text-mother-desc'] : data.motherDesc;
+            document.getElementById('text-quote1').innerText = st['text-quote1'] !== undefined ? st['text-quote1'] : data.quote1;
+            document.getElementById('text-quote1-author').innerText = st['text-quote1-author'] !== undefined ? st['text-quote1-author'] : data.quote1Author;
+            document.getElementById('text-quote2').innerText = st['text-quote2'] !== undefined ? st['text-quote2'] : data.quote2;
+            document.getElementById('text-quote2-author').innerText = st['text-quote2-author'] !== undefined ? st['text-quote2-author'] : data.quote2Author;
+
+            renderAllNotes();
+        }
+
+        function previewProfileImage(event, imgId, placeholderId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(imgId).src = e.target.result;
+                    document.getElementById(imgId).classList.remove('hidden');
+                    document.getElementById(placeholderId).classList.add('hidden');
+                    appData.profileImages[imgId.includes('father') ? 'father' : 'mother'] = e.target.result;
+                    saveToLocalStorage();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function loadProfileImages() {
+            ['father', 'mother'].forEach(p => {
+                if (appData.profileImages[p]) {
+                    const img = document.getElementById(`${p}-img`);
+                    img.src = appData.profileImages[p];
+                    img.classList.remove('hidden');
+                    document.getElementById(`${p}-placeholder`).classList.add('hidden');
+                }
+            });
+        }
+
+        function renderAllNotes() {
+            const container = document.getElementById('notes-container');
+            container.innerHTML = '';
+            appData.notes.forEach(note => createNoteCardDOM(note, container));
+        }
+
+        function addNoteCard() {
+            const newId = appData.notes.length > 0 ? Math.max(...appData.notes.map(n => n.id)) + 1 : 1;
+            appData.notes.push({
+                id: newId,
+                title_my: "",
+                title_en: "",
+                desc_my: "",
+                desc_en: "",
+                layout: 'default',
+                images: []
+            });
+            saveToLocalStorage();
+            renderAllNotes();
+        }
+
+        function createNoteCardDOM(note, container) {
+            const d = dictionary[currentLang];
+            
+            let valTitle = currentLang === 'my' ? note.title_my : note.title_en;
+            let valDesc = currentLang === 'my' ? note.desc_my : note.desc_en;
+            
+            if (valTitle === "undefined" || !valTitle) valTitle = "";
+            if (valDesc === "undefined" || !valDesc) valDesc = "";
+
+            let imagesZoneHTML = '';
+            if (note.images && note.images.length > 0) {
+                let layoutClass = 'grid-cols-1';
+                if (note.layout === 'grid') layoutClass = 'grid-cols-2';
+                if (note.layout === 'collage') layoutClass = 'grid-cols-3';
+                if (note.layout === 'love') layoutClass = 'grid-cols-2 layout-love';
+
+                imagesZoneHTML = `<div class="grid gap-2 mb-4 ${layoutClass}">`;
+                note.images.forEach(imgData => {
+                    imagesZoneHTML += `<img src="${imgData}" class="w-full h-48 object-cover rounded-2xl shadow-sm">`;
+                });
+                imagesZoneHTML += `</div>`;
+            } else {
+                imagesZoneHTML = `
+                    <div onclick="document.getElementById('upload-note-img-${note.id}').click()" class="border-2 border-dashed border-stone-300 dark:border-stone-700 rounded-2xl p-8 text-center text-xs text-stone-400 dark:text-stone-500 cursor-pointer hover:bg-stone-200/40 dark:hover:bg-stone-800/40 mb-4 transition-colors">
+                        <p>${currentLang === 'my' ? 'ဓာတ်ပုံတင်ရန် နှိပ်ပါ' : 'Click to Upload Photo'}</p>
+                    </div>`;
+            }
+
+            // Check if photos are maxed out (4 photos limit)
+            const isMaxPhotos = note.images && note.images.length >= 4;
+
+            const cardHTML = `
+                <div class="relative bg-white/95 dark:bg-stone-900/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-md border border-stone-200/60 dark:border-stone-800 p-6 flex flex-col justify-between animate-fadeIn" id="note-card-${note.id}">
+                    
+                    <button onclick="triggerDeleteNoteCard(${note.id})" class="absolute top-4 right-4 z-20 w-7 h-7 bg-stone-100 hover:bg-rose-100 dark:bg-stone-800 dark:hover:bg-rose-950/50 text-stone-400 hover:text-rose-600 rounded-full flex items-center justify-center transition-colors shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+
+                    <div class="mt-4">
+                        ${imagesZoneHTML}
+                        <input type="file" id="upload-note-img-${note.id}" accept="image/*" multiple class="hidden" onchange="handleNoteImagesUpload(event, ${note.id})">
+                        
+                        <h3 id="note-title-${note.id}" 
+                            placeholder="${d.phTitle}" 
+                            class="text-xl font-bold mb-2 focus:outline-none text-stone-950 dark:text-stone-50 min-h-[1.5em]" 
+                            contenteditable="true">${valTitle}</h3>
+                            
+                        <p id="note-desc-${note.id}" 
+                           placeholder="${d.phDesc}" 
+                           class="text-stone-800 dark:text-stone-300 text-sm mb-4 focus:outline-none leading-relaxed min-h-[3em]" 
+                           contenteditable="true">${valDesc}</p>
+                    </div>
+
+                    <div class="border-t border-stone-200 dark:border-stone-800 pt-4 mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <div class="flex items-center gap-1">
+                            <span class="text-stone-500 dark:text-stone-400 font-medium mr-1">${d.chooseLayout}</span>
+                            <select onchange="changeNoteLayout(${note.id}, this.value)" class="bg-stone-100 dark:bg-stone-800 px-2 py-1 rounded-lg border-none text-stone-800 dark:text-stone-200 font-medium focus:ring-1 focus:ring-amber-500">
+                                <option value="default" ${note.layout==='default'?'selected':''}>Default</option>
+                                <option value="grid" ${note.layout==='grid'?'selected':''}>Grid</option>
+                                <option value="collage" ${note.layout==='collage'?'selected':''}>Collage</option>
+                                <option value="love" ${note.layout==='love'?'selected':''}>❤️ Love Shape</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2 font-bold">
+                            <!-- Conditionally show or hide the Add More button based on photo limit -->
+                            <button onclick="document.getElementById('upload-note-img-${note.id}').click()" 
+                                    class="text-amber-800 dark:text-amber-500 hover:underline ${isMaxPhotos ? 'hidden' : ''}">
+                                ${d.addMore}
+                            </button>
+                            <button onclick="triggerClearImages(${note.id})" class="text-rose-600 dark:text-rose-400 hover:underline">${d.clearAll}</button>
+                        </div>
+                    </div>
+                </div>`;
+
+            container.insertAdjacentHTML('beforeend', cardHTML);
+
+            document.getElementById(`note-title-${note.id}`).addEventListener('blur', (e) => {
+                const txt = e.target.innerText.trim();
+                if(currentLang === 'my') note.title_my = txt;
+                else note.title_en = txt;
+                saveToLocalStorage();
+            });
+            document.getElementById(`note-desc-${note.id}`).addEventListener('blur', (e) => {
+                const txt = e.target.innerText.trim();
+                if(currentLang === 'my') note.desc_my = txt;
+                else note.desc_en = txt;
+                saveToLocalStorage();
+            });
+        }
+
+        function handleNoteImagesUpload(event, noteId) {
+            const files = event.target.files;
+            if (!files.length) return;
+            const note = appData.notes.find(n => n.id === noteId);
+            if (!note) return;
+
+            let loadedCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                if (note.images.length >= 4) break; // Hard limit at 4 photos
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    note.images.push(e.target.result);
+                    loadedCount++;
+                    if (loadedCount === Math.min(files.length, 4 - note.images.length + loadedCount)) {
+                        saveToLocalStorage();
+                        renderAllNotes();
+                    }
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        }
+
+        function changeNoteLayout(noteId, layoutValue) {
+            const note = appData.notes.find(n => n.id === noteId);
+            if (note) {
+                note.layout = layoutValue;
+                saveToLocalStorage();
+                renderAllNotes();
+            }
+        }
+
+        function triggerClearImages(noteId) {
+            activeDeleteId = noteId;
+            const data = dictionary[currentLang];
+            document.getElementById('text-modal-title').innerText = data.modalTitle;
+            document.getElementById('text-modal-desc').innerText = data.modalDesc;
+            
+            const modal = document.getElementById('custom-confirm-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            
+            document.getElementById('text-modal-confirm').onclick = function() {
+                const note = appData.notes.find(n => n.id === activeDeleteId);
+                if (note) {
+                    note.images = [];
+                    saveToLocalStorage();
+                    renderAllNotes();
+                }
+                closeConfirmModal();
+            };
+        }
+
+        function triggerDeleteNoteCard(noteId) {
+            activeDeleteId = noteId;
+            const data = dictionary[currentLang];
+            document.getElementById('text-modal-title').innerText = data.modalTitleCard;
+            document.getElementById('text-modal-desc').innerText = data.modalDescCard;
+            
+            const modal = document.getElementById('custom-confirm-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            
+            document.getElementById('text-modal-confirm').onclick = function() {
+                appData.notes = appData.notes.filter(n => n.id !== activeDeleteId);
+                saveToLocalStorage();
+                renderAllNotes();
+                closeConfirmModal();
+            };
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('custom-confirm-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                activeDeleteId = null;
+            }, 300);
+        }
+        function openSettingsModal() {
+            // ဆက်တင်ဖွင့်တိုင်း ပထမဆုံး Menu ခလုတ်တွေကိုပဲ ပြပေးမယ်
+            showSettingsMenu();
+            
+            const modal = document.getElementById('settings-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // Sub Panel တွေကိုပြောင်းပေးမယ့် Function
+        function openSettingsTab(tabName) {
+            // အဓိက Menu ကို ဖျောက်မယ်
+            document.getElementById('settings-main-menu').classList.add('hidden');
+            
+            // Sub Panels အားလုံးကို အရင် ဖျောက်မယ်
+            document.getElementById('panel-language').classList.add('hidden');
+            document.getElementById('panel-themes').classList.add('hidden');
+            document.getElementById('panel-security').classList.add('hidden');
+            
+            // ရွေးချယ်လိုက်တဲ့ Panel တစ်ခုတည်းကိုပဲ ပြပေးမယ်
+            document.getElementById(`panel-${tabName}`).classList.remove('hidden');
+            
+            // Back Button လေးကို ဖော်ပေးမယ်
+            document.getElementById('btn-settings-back').classList.remove('hidden');
+        }
+
+        // မူလ Menu အပြင်အဆင်ဆီ ပြန်သွားမယ့် Function (Back Button နှိပ်ရင်သုံးမယ်)
+        function showSettingsMenu() {
+            document.getElementById('settings-main-menu').classList.remove('hidden');
+            document.getElementById('panel-language').classList.add('hidden');
+            document.getElementById('panel-themes').classList.add('hidden');
+            document.getElementById('panel-security').classList.add('hidden');
+            document.getElementById('btn-settings-back').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
